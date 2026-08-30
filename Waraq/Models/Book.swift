@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftData
+import SwiftUI
 
 @Model
 final class Book {
@@ -50,5 +51,16 @@ extension Book {
     var progress: Double {
         guard totalPages > 0 else { return 0 }
         return Double(currentPage) / Double(totalPages)
+    }
+}
+
+
+extension Book.ReadingStatus {
+    var color: Color {
+        switch self {
+        case .notStarted: .gray
+        case .reading: .blue
+        case .finished: .green
+        }
     }
 }

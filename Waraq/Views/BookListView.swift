@@ -16,7 +16,12 @@ struct BookListView: View {
     var body: some View {
         NavigationStack {
             List(books) { book in
-                BookCardView(book: book)
+                NavigationLink(value: book) {
+                    BookCardView(book: book)
+                }
+            }
+            .navigationDestination(for: Book.self) { book in
+                    BookDetailView(book: book)
             }
             .navigationTitle("Books")
             .toolbar {
@@ -37,5 +42,5 @@ struct BookListView: View {
 
 #Preview {
     BookListView()
-        .modelContainer(for: Book.self, inMemory: true)
+        .modelContainer(for: Book.self)
 }
