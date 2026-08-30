@@ -21,7 +21,7 @@ struct BookCardView: View {
             
             Spacer()
             
-            CircularProgressView(progress: book.progress, strokeWidth: 5, color: .red)
+            CircularProgressView(progress: book.progress, strokeWidth: 5, color: book.status.color)
                 .frame(width: 50, height: 50)
         }
     }
