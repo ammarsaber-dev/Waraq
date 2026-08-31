@@ -14,6 +14,6 @@ struct WaraqApp: App {
         WindowGroup {
             ContentView()
         }
-        .modelContainer(for: Book.self)
+        .modelContainer(for: [Book.self, ReadingSession.self])
     }
 }

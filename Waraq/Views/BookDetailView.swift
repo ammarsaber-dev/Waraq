@@ -6,9 +6,13 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct BookDetailView: View {
     @Bindable var book: Book
+    
+    @Environment(\.modelContext) private var modelContext
+    @State private var showSession = false
 
     var body: some View {
         ScrollView {
@@ -16,11 +20,19 @@ struct BookDetailView: View {
                 BookHeaderView(book: book)
                 BookProgressSummaryView(book: book)
                 BookProgressUpdateView(book: book)
+                
+                Button("Start Reading Session") {
+                    showSession = true
+                }
+                .buttonStyle(.borderedProminent)
             }
             .padding()
         }
         .navigationTitle("Book Details")
         .navigationBarTitleDisplayMode(.inline)
+        .fullScreenCover(isPresented: $showSession) {
+            ReadingSessionView(book: book, modelContext: modelContext)
+        }
     }
 }
 
@@ -32,6 +44,7 @@ struct BookHeaderView: View {
             Text(book.title)
                 .font(.title2.weight(.bold))
                 .fontWidth(.expanded)
+                .multilineTextAlignment(.center)
             
             Text(book.author)
                 .font(.subheadline)
@@ -52,7 +65,10 @@ struct BookProgressSummaryView: View {
 
     var body: some View {
         VStack(spacing: 12) {
-            CircularProgressView(progress: book.progress, strokeWidth: 8, color: .green)
+            CircularProgressView(progress: book.progress,
+                                 strokeWidth: 8,
+                                 color: .green,
+                                 percentageFont: .default)
                 .frame(width: 200)
             Text("\(book.currentPage) / \(book.totalPages) pages")
                 .font(.subheadline)
