@@ -28,7 +28,7 @@ This is an early, intentionally minimal version. No session timers, goals, remin
 ## Roadmap
 
 - [x] Book detail view + manual progress updates
-- [ ] Reading session logging (start/stop timer)
+- [x] Reading session logging (start/stop timer)
 - [ ] Monthly / yearly reading goals
 - [ ] Scheduled reading reminders
 - [ ] Stats dashboard
