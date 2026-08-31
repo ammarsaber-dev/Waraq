@@ -12,12 +12,19 @@ struct CircularProgressView: View {
     let strokeWidth: CGFloat
     let color: Color
     let showPercentage: Bool
+    let percentageFont: Font
     
-    init(progress: Double, strokeWidth: CGFloat, color: Color, showPercentage: Bool = true) {
+    init(progress: Double,
+         strokeWidth: CGFloat,
+         color: Color,
+         showPercentage: Bool = true,
+         percentageFont: Font = .caption
+    ) {
         self.progress = progress
         self.strokeWidth = strokeWidth
         self.color = color
         self.showPercentage = showPercentage
+        self.percentageFont = percentageFont
     }
     
     var formattedProgress: String {
@@ -37,11 +44,11 @@ struct CircularProgressView: View {
                 .stroke(style: StrokeStyle(lineWidth: strokeWidth, lineCap: .round, lineJoin: .round))
                 .foregroundStyle(color)
                 .rotationEffect(.degrees(270))
-                .animation(.linear, value: progress)
+                .animation(.smooth.speed(0.5), value: progress)
             
             if showPercentage {
                 Text(formattedProgress)
-                    .font(.caption)
+                    .font(percentageFont)
             }
         }
     }
