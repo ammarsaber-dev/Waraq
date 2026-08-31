@@ -10,8 +10,10 @@ Waraq is my attempt to fix that, and to learn iOS development properly while doi
 
 ## What it does (v0)
 
-- Add books manually (title, author, total pages)
-- View all books in a list with live progress bars
+- Add books manually (title, author, total pages), optionally setting a starting page if you're already partway through
+- View all books in a list, each with a progress ring reflecting reading status
+- Tap into a book to see full details and update progress — quick +10/+25/+50 page buttons, or manual entry for anything else
+- Reading status (not started / reading / finished) shown with a colored badge, consistent across list and detail views
 - Data persists locally via SwiftData
 
 This is an early, intentionally minimal version. No session timers, goals, reminders, or stats yet — see [Roadmap](#roadmap).
@@ -25,7 +27,7 @@ This is an early, intentionally minimal version. No session timers, goals, remin
 
 ## Roadmap
 
-- [ ] Book detail view + manual progress updates
+- [x] Book detail view + manual progress updates
 - [ ] Reading session logging (start/stop timer)
 - [ ] Monthly / yearly reading goals
 - [ ] Scheduled reading reminders
@@ -37,7 +39,7 @@ This is an early, intentionally minimal version. No session timers, goals, remin
 Clone the repo and open `Waraq.xcodeproj` in Xcode 26+.
 
 ```bash
-git clone https://github.com/<your-username>/waraq.git
+git clone https://github.com/ammarsaber-dev/waraq.git
 ```
 
 ## Status
