@@ -31,7 +31,7 @@ This is an early, intentionally minimal version. No session timers, goals, remin
 - [x] Reading session logging (start/stop timer)
 - [ ] Monthly / yearly reading goals
 - [ ] Scheduled reading reminders
-- [ ] Stats dashboard
+- [x] Stats dashboard
 - [ ] Arabic + English localization
 
 ## Getting started
