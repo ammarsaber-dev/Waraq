@@ -24,5 +24,5 @@ struct ContentView: View {
 
 #Preview {
     ContentView()
-        .modelContainer(for: [Book.self, ReadingSession.self], inMemory: true)
+        .modelContainer(for: [Book.self, ReadingSession.self, DailyGoal.self], inMemory: true)
 }

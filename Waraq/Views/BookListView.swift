@@ -42,5 +42,4 @@ struct BookListView: View {
 
 #Preview {
     BookListView()
-        .modelContainer(for: [Book.self, ReadingSession.self], inMemory: true)
 }

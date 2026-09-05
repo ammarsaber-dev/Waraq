@@ -10,21 +10,57 @@ import SwiftData
 
 struct BookDetailView: View {
     @Bindable var book: Book
-    
+
+    @Query private var dailyGoals: [DailyGoal]
     @Environment(\.modelContext) private var modelContext
+
     @State private var showSession = false
+    @State private var showTodayGoal = false
+
+    var bookIsFinished: Bool {
+        book.status == .finished
+    }
+
+    var todaysGoal: DailyGoal? {
+        dailyGoals.first { goal in
+            book == goal.targetBook && Calendar.current.isDate(.now, inSameDayAs: goal.goalDate)
+        }
+    }
+
+    var goalAlreadyExists: Bool {
+        todaysGoal != nil
+    }
 
     var body: some View {
         ScrollView {
-            VStack(spacing: 32) {
+            VStack(spacing: 24) {
                 BookHeaderView(book: book)
                 BookProgressSummaryView(book: book)
-                BookProgressUpdateView(book: book)
-                
-                Button("Start Reading Session") {
+
+                if let todaysGoal {
+                    TodaysGoalView(goal: todaysGoal)
+                } else if !bookIsFinished {
+                    Button {
+                        showTodayGoal = true
+                    } label: {
+                        Label("Set Today's Goal", systemImage: "target")
+                            .frame(maxWidth: .infinity)
+                    }
+                    .buttonStyle(.bordered)
+                }
+
+                Button {
                     showSession = true
+                } label: {
+                    Label("Start Reading Session", systemImage: "play.fill")
+                        .frame(maxWidth: .infinity)
                 }
                 .buttonStyle(.borderedProminent)
+                .disabled(bookIsFinished)
+
+                Divider()
+
+                BookProgressUpdateView(book: book)
             }
             .padding()
         }
@@ -33,6 +69,84 @@ struct BookDetailView: View {
         .fullScreenCover(isPresented: $showSession) {
             ReadingSessionView(book: book, modelContext: modelContext)
         }
+        .sheet(isPresented: $showTodayGoal) {
+            AddDailyGoalView(book: book)
+        }
+    }
+}
+
+struct TodaySectionView: View {
+    let goal: DailyGoal?
+    let sessions: [ReadingSession]
+    let bookIsFinished: Bool
+    let onStartSession: () -> Void
+    let onSetGoal: () -> Void
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            Text("Today")
+                .font(.headline)
+                .foregroundStyle(.secondary)
+
+            if let goal {
+                TodaysGoalView(goal: goal)
+            }
+
+            VStack(spacing: 10) {
+                Button {
+                    onStartSession()
+                } label: {
+                    Label("Start Reading Session", systemImage: "timer")
+                        .frame(maxWidth: .infinity)
+                }
+                .buttonStyle(.borderedProminent)
+                .disabled(bookIsFinished)
+
+                if goal == nil {
+                    Button {
+                        onSetGoal()
+                    } label: {
+                        Label("Set Today's Goal", systemImage: "target")
+                            .frame(maxWidth: .infinity)
+                    }
+                    .buttonStyle(.bordered)
+                    .disabled(bookIsFinished)
+                }
+            }
+        }
+    }
+}
+
+struct TodaysGoalView: View {
+    let goal: DailyGoal
+
+    private var progress: Double {
+        min(Double(goal.pagesRead) / Double(goal.targetPages), 1.0)
+    }
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            HStack {
+                Label("Today's Goal", systemImage: "target")
+                    .font(.headline)
+                Spacer()
+                if goal.isAchieved {
+                    Label("Achieved", systemImage: "checkmark.seal.fill")
+                        .font(.caption.weight(.semibold))
+                        .foregroundStyle(.green)
+                }
+            }
+
+            ProgressView(value: progress)
+                .tint(goal.isAchieved ? .green : .blue)
+                .animation(.smooth.speed(0.3), value: progress)
+
+            Text("\(goal.pagesRead) / \(goal.targetPages) pages read today")
+                .font(.subheadline)
+                .foregroundStyle(.secondary)
+        }
+        .padding()
+        .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 12))
     }
 }
 
