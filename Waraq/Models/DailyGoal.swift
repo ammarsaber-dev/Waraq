@@ -36,3 +36,10 @@ extension DailyGoal {
         pagesRead >= targetPages
     }
 }
+
+
+extension [DailyGoal] {
+    func today(for book: Book) -> DailyGoal? {
+        first { $0.targetBook == book && Calendar.current.isDate(.now, inSameDayAs: $0.goalDate) }
+    }
+}

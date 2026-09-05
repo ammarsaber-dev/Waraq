@@ -22,9 +22,7 @@ struct BookDetailView: View {
     }
 
     var todaysGoal: DailyGoal? {
-        dailyGoals.first { goal in
-            book == goal.targetBook && Calendar.current.isDate(.now, inSameDayAs: goal.goalDate)
-        }
+        dailyGoals.today(for: book)
     }
 
     var goalAlreadyExists: Bool {
