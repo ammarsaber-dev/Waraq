@@ -14,24 +14,26 @@ Waraq is my attempt to fix that, and to learn iOS development properly while doi
 - View all books in a list, each with a progress ring reflecting reading status
 - Tap into a book to see full details and update progress — quick +10/+25/+50 page buttons, or manual entry for anything else
 - Reading status (not started / reading / finished) shown with a colored badge, consistent across list and detail views
+- Time a reading session for a book with a live timer, and log the page you stopped at when you're done — updates your progress automatically
+- A Stats tab showing total pages read, time spent reading, and book counts by status
+- Set a daily page goal for a book and track live progress toward it, with an achieved badge once you hit the target
 - Data persists locally via SwiftData
 
-This is an early, intentionally minimal version. No session timers, goals, reminders, or stats yet — see [Roadmap](#roadmap).
+This is an early, intentionally minimal version. No reminders or bilingual support yet — see [Roadmap](#roadmap).
 
 ## Tech stack
 
 - **Swift / SwiftUI** — UI and app logic
 - **SwiftData** — local persistence
-- **MVVM** — architecture pattern
 - iOS 26+
 
 ## Roadmap
 
 - [x] Book detail view + manual progress updates
 - [x] Reading session logging (start/stop timer)
-- [ ] Monthly / yearly reading goals
-- [ ] Scheduled reading reminders
 - [x] Stats dashboard
+- [x] Daily reading goals
+- [ ] Scheduled reading reminders
 - [ ] Arabic + English localization
 
 ## Getting started
