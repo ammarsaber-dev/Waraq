@@ -9,7 +9,8 @@ import SwiftData
 import SwiftUI
 
 struct BookListView: View {
-    @Query(sort: \Book.dateAdded, order: .reverse) var books: [Book]
+    @Query(sort: \Book.dateAdded, order: .reverse) private var books: [Book]
+    @Query private var dailyGoals: [DailyGoal]
     
     @State private var showAddBookView = false
 
@@ -17,11 +18,11 @@ struct BookListView: View {
         NavigationStack {
             List(books) { book in
                 NavigationLink(value: book) {
-                    BookCardView(book: book)
+                    BookCardView(book: book, dailyGoal: dailyGoals.today(for: book))
                 }
             }
             .navigationDestination(for: Book.self) { book in
-                    BookDetailView(book: book)
+                BookDetailView(book: book)
             }
             .navigationTitle("Books")
             .toolbar {
