@@ -70,5 +70,4 @@ struct AddBookView: View {
 
 #Preview {
     AddBookView()
-        .modelContainer(for: Book.self, inMemory: true)
 }

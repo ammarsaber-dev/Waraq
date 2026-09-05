@@ -63,5 +63,4 @@ struct StatRowView: View {
 
 #Preview {
     StatsView()
-        .modelContainer(for: [Book.self, ReadingSession.self], inMemory: true)
 }
