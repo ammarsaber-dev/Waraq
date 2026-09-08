@@ -1,34 +1,63 @@
-# Waraq (ورق)
+<!-- ![Cover](docs/cover.png) -->
 
-A reading tracker for people who buy books faster than they read them.
+# 📖 Waraq
+Waraq (ورق, Arabic for "pages") is a personal reading tracker for iOS, built with **SwiftUI** and **SwiftData**. I bought 19 books in one order and had no way to track any of them — this is my fix, and how I'm learning iOS development for real by shipping something I actually use every day.
 
-## The problem
+<br>
 
-I bought 19 books in a single order. Then I had no way to track what I'd started, how far into each one I was, or whether I was actually making progress — because I wasn't. My phone won a lot more than my reading list did.
+<!--
+## ▶️ Demo
+Watch a quick demo on [YouTube](#).
 
-Waraq is my attempt to fix that, and to learn iOS development properly while doing it — not through tutorials, but by building something I'll actually use every day.
+<br>
+-->
 
-## What it does (v0)
+## 🌟 Features
+- Track your library with a progress ring per book
+- Log a starting page when adding a book you've already begun
+- Update progress with quick-tap page buttons or manual entry
+- Time a reading session with a live, pause-aware timer
+- Set a daily page goal per book and track live progress toward it
+- View reading stats — streaks, average session length, most-read book
 
-- Add books manually (title, author, total pages), optionally setting a starting page if you're already partway through
-- View all books in a list, each with a progress ring reflecting reading status
-- Tap into a book to see full details and update progress — quick +10/+25/+50 page buttons, or manual entry for anything else
-- Reading status (not started / reading / finished) shown with a colored badge, consistent across list and detail views
-- Time a reading session for a book with a live timer, and log the page you stopped at when you're done — updates your progress automatically
-- A Stats tab showing total pages read, time spent reading, and book counts by status
-- Set a daily page goal for a book and track live progress toward it, with an achieved badge once you hit the target
-- Data persists locally via SwiftData
+<br>
 
-This is an early, intentionally minimal version. No reminders or bilingual support yet — see [Roadmap](#roadmap).
+<!--
+## 🖼️ Screenshots
 
-## Tech stack
+| **Library** | **Book Detail** | **Reading Session** | **Stats** |
+| ----------- | ---------------- | -------------------- | --------- |
+| ![Library](docs/screenshot-library.png) | ![Detail](docs/screenshot-detail.png) | ![Session](docs/screenshot-session.png) | ![Stats](docs/screenshot-stats.png) |
 
-- **Swift / SwiftUI** — UI and app logic
-- **SwiftData** — local persistence
-- iOS 26+
+<br>
+-->
 
-## Roadmap
+## 🛠️ Tools
+- Swift
+- SwiftUI
+- SwiftData
+- TimelineView
 
+<br>
+
+## 🗂️ Project Structure
+
+```
+    Waraq                            # Root Group
+    .
+    ├── App                          # App entry point, root view
+    ├── Features                     # Organized by feature, not by file type
+    │   └── Feature                  # A feature that represents a single concern
+    │       ├── Models               # SwiftData models for the feature
+    │       ├── ViewModels           # View Models, where the feature needs one
+    │       └── Views                # SwiftUI Views, one view per file
+    │           └── Components       # Subviews private to a specific screen
+    └── Shared                       # Reusable views used across features
+```
+
+<br>
+
+## 🗺️ Roadmap
 - [x] Book detail view + manual progress updates
 - [x] Reading session logging (start/stop timer)
 - [x] Stats dashboard
@@ -36,14 +65,10 @@ This is an early, intentionally minimal version. No reminders or bilingual suppo
 - [ ] Scheduled reading reminders
 - [ ] Arabic + English localization
 
-## Getting started
+<br>
 
+## 🚀 Getting Started
 Clone the repo and open `Waraq.xcodeproj` in Xcode 26+.
-
 ```bash
 git clone https://github.com/ammarsaber-dev/waraq.git
 ```
-
-## Status
-
-Actively in development as a learning project and portfolio piece. Built one deliberate slice at a time — model, then view, then flow — rather than scaffolded all at once.
