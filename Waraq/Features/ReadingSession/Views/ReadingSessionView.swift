@@ -31,17 +31,17 @@ struct ReadingSessionView: View {
                 .fontWidth(.expanded)
                 .multilineTextAlignment(.center)
 
-            ElapsedTimeView(elapsed: viewModel.elapsed)
+            ElapsedTimeView(viewModel: viewModel)
 
             SessionControlsView(
-                state: viewModel.state,
+                sessionIsRunning: viewModel.startDate != nil,
                 onStart: { viewModel.start() },
                 onCancel: {
                     viewModel.cancel()
                     dismiss()
                 },
                 onEndTapped: {
-                    viewModel.pauseForEnding()
+                    viewModel.pause()
                     endPageText = "\(viewModel.book.currentPage)"
                     showEndPrompt = true
                 }
@@ -52,7 +52,7 @@ struct ReadingSessionView: View {
             TextField("Page", text: $endPageText)
                 .keyboardType(.numberPad)
             Button("Cancel", role: .cancel) {
-                viewModel.resumeAfterCancelingEnd()
+                viewModel.resume()
             }
             Button("Save") {
                 guard let page = Int(endPageText) else { return }
@@ -61,45 +61,9 @@ struct ReadingSessionView: View {
             }
             .disabled(!isEndPageValid)
         }
-    }
-}
-
-struct ElapsedTimeView: View {
-    let elapsed: TimeInterval
-
-    private var formatted: String {
-        Duration.seconds(elapsed)
-            .formatted(.time(pattern: .minuteSecond))
-    }
-
-    var body: some View {
-        Text(formatted)
-            .font(.system(size: 56))
-            .fontWeight(.semibold)
-            .fontDesign(.rounded)
-            .monospacedDigit()
-            .contentTransition(.numericText())
-            .animation(.snappy, value: elapsed)
-    }
-}
-
-struct SessionControlsView: View {
-    let state: ReadingSessionViewModel.State
-    let onStart: () -> Void
-    let onCancel: () -> Void
-    let onEndTapped: () -> Void
-
-    var body: some View {
-        switch state {
-        case .idle:
-            Button("Start", action: onStart)
-                .buttonStyle(.borderedProminent)
-
-        case .running:
-            HStack(spacing: 16) {
-                Button("Cancel", role: .destructive, action: onCancel)
-                Button("End Session", action: onEndTapped)
-                    .buttonStyle(.borderedProminent)
+        .onDisappear {
+            if viewModel.startDate != nil {
+                viewModel.cancel()
             }
         }
     }
