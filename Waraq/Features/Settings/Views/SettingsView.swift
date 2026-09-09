@@ -47,10 +47,7 @@ struct SettingsView: View {
     }
 
     func storeReminderTime() {
-        let components = Calendar.current.dateComponents(
-            [.hour, .minute],
-            from: reminderTime
-        )
+        let components = reminderDateComponents()
         UserDefaults.standard.set(components.hour, forKey: "reminderHour")
         UserDefaults.standard.set(components.minute, forKey: "reminderMinute")
     }
@@ -84,25 +81,56 @@ struct SettingsView: View {
         do {
             let granted = try await UNUserNotificationCenter.current()
                 .requestAuthorization(options: [.alert, .badge, .sound])
-            
+
             if granted {
-                scheduleReminder()
+                await scheduleReminder()
             } else {
                 reminderEnabled = false
             }
-            
+
         } catch {
             reminderEnabled = false
             print(error.localizedDescription)
         }
     }
-    
-    func scheduleReminder() {
-        
+
+    func scheduleReminder() async {
+        let reminderContent = UNMutableNotificationContent()
+        reminderContent.title = "Reading Time"
+        reminderContent.body = "Pick up a book - even 10 minutes counts."
+
+        let dateComponents = reminderDateComponents()
+
+        let trigger = UNCalendarNotificationTrigger(
+            dateMatching: dateComponents,
+            repeats: true
+        )
+
+        let request = UNNotificationRequest(
+            identifier: "dailyReadingReminder",
+            content: reminderContent,
+            trigger: trigger
+        )
+
+        let notificationCenter = UNUserNotificationCenter.current()
+
+        do {
+            try await notificationCenter.add(request)
+        } catch {
+            print("Adding notification failed: ", error.localizedDescription)
+        }
     }
-    
+
     func cancelReminder() {
-        UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: ["dailyReadingReminder"])
+        UNUserNotificationCenter.current().removePendingNotificationRequests(
+            withIdentifiers: ["dailyReadingReminder"])
+    }
+
+    func reminderDateComponents() -> DateComponents {
+        Calendar.current.dateComponents(
+            [.hour, .minute],
+            from: reminderTime
+        )
     }
 }
 
