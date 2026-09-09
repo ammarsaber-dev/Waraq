@@ -18,6 +18,10 @@ struct ContentView: View {
             Tab("Stats", systemImage: "chart.bar.fill") {
                 StatsView()
             }
+            
+            Tab("Settings", systemImage: "gearshape.fill") {
+                SettingsView()
+            }
         }
     }
 }
