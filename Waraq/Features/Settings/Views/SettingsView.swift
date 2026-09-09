@@ -8,10 +8,23 @@
 import SwiftUI
 
 struct SettingsView: View {
+    @State private var reminderEnabled = false
+    @State private var reminderTime = Date()
+
     var body: some View {
         NavigationStack {
-            ScrollView {
-                
+            Form {
+                Section("Reminders") {
+                    Toggle("Daily Reading Reminder", isOn: $reminderEnabled)
+
+                    if reminderEnabled {
+                        DatePicker(
+                            "Reminder Time",
+                            selection: $reminderTime,
+                            displayedComponents: .hourAndMinute
+                        )
+                    }
+                }
             }
             .navigationTitle("Settings")
         }
