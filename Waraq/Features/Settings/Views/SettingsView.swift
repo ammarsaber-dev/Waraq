@@ -9,13 +9,16 @@ import SwiftUI
 import UserNotifications
 
 struct SettingsView: View {
+    @Environment(\.openURL) private var openURL
+
     @AppStorage("reminderEnabled") private var reminderEnabled = false
     @State private var reminderTime = Date()
+    @State private var showSettingsAlert = false
 
     var body: some View {
         NavigationStack {
             Form {
-                Section("Reminders") {
+                Section {
                     Toggle("Daily Reading Reminder", isOn: $reminderEnabled)
 
                     if reminderEnabled {
@@ -25,19 +28,45 @@ struct SettingsView: View {
                             displayedComponents: .hourAndMinute
                         )
                     }
+                } header: {
+                    Text("Reminders")
+                } footer: {
+                    if reminderEnabled {
+                        Text("You'll get a daily notification at this time.")
+                    }
                 }
             }
             .navigationTitle("Settings")
+            .alert("Notifications Disabled", isPresented: $showSettingsAlert) {
+                Button("Go to Settings") {
+                    if let url = URL(
+                        string: UIApplication.openSettingsURLString
+                    ) {
+                        openURL(url)
+                    }
+                }
+                Button("Cancel", role: .cancel) {}
+            } message: {
+                Text(
+                    "To get daily reading reminders, enable notifications for Waraq in Settings."
+                )
+            }
             .onAppear {
                 loadReminderTime()
             }
             .onChange(of: reminderTime) { _, _ in
                 storeReminderTime()
+
+                if reminderEnabled {
+                    Task {
+                        await scheduleReminder()
+                    }
+                }
             }
             .onChange(of: reminderEnabled) { _, newValue in
                 if newValue {
                     Task {
-                        await requestNotificationPermission()
+                        await handleReminderToggleOn()
                     }
                 } else {
                     cancelReminder()
@@ -124,6 +153,26 @@ struct SettingsView: View {
     func cancelReminder() {
         UNUserNotificationCenter.current().removePendingNotificationRequests(
             withIdentifiers: ["dailyReadingReminder"])
+    }
+
+    func handleReminderToggleOn() async {
+        let settings = await UNUserNotificationCenter.current()
+            .notificationSettings()
+
+        switch settings.authorizationStatus {
+        case .notDetermined:
+            await requestNotificationPermission()
+
+        case .denied:
+            reminderEnabled = false
+            showSettingsAlert = true
+
+        case .authorized, .provisional, .ephemeral:
+            await scheduleReminder()
+
+        default:
+            reminderEnabled = false
+        }
     }
 
     func reminderDateComponents() -> DateComponents {
