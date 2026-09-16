@@ -29,13 +29,13 @@ struct ReadingHabitsSection: View {
                     icon: "flame",
                     iconColor: .orange,
                     label: "Reading streak",
-                    value: "\(streak) day\(streak == 1 ? "" : "s")"
+                    value: Text("\(streak) day")
                 )
                 HabitRowView(
                     icon: "clock",
                     iconColor: .secondary,
                     label: "Avg. session",
-                    value: formattedAverage
+                    value: Text(formattedAverage)
                 )
 
                 if let mostReadBook {
@@ -43,7 +43,7 @@ struct ReadingHabitsSection: View {
                         icon: "book",
                         iconColor: .secondary,
                         label: "Most read",
-                        value: mostReadBook.title
+                        value: Text(mostReadBook.title)
                     )
                 }
 
@@ -51,7 +51,7 @@ struct ReadingHabitsSection: View {
                     icon: "list.number",
                     iconColor: .secondary,
                     label: "Sessions logged",
-                    value: "\(sessionCount)"
+                    value: Text("\(sessionCount) session")
                 )
             }
         }

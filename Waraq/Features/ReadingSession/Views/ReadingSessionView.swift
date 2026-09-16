@@ -19,7 +19,7 @@ struct ReadingSessionView: View {
     }
 
     private var isEndPageValid: Bool {
-        guard let page = Int(endPageText) else { return false }
+        guard let page = try? Int(endPageText, format: .number) else { return false }
         return page >= viewModel.book.currentPage && page <= viewModel.book.totalPages
     }
 
@@ -55,7 +55,7 @@ struct ReadingSessionView: View {
                 viewModel.resume()
             }
             Button("Save") {
-                guard let page = Int(endPageText) else { return }
+                guard let page = try? Int(endPageText, format: .number) else { return }
                 viewModel.end(atPage: page)
                 dismiss()
             }

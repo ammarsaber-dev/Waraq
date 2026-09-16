@@ -8,15 +8,15 @@
 import SwiftUI
 
 struct MetricCardView: View {
-    let label: String
-    let value: String
+    let label: LocalizedStringKey
+    let value: Text
 
     var body: some View {
         VStack(alignment: .leading, spacing: 4) {
             Text(label)
                 .font(.caption)
                 .foregroundStyle(.secondary)
-            Text(value)
+            value
                 .font(.title3.weight(.medium))
         }
         .frame(maxWidth: .infinity, alignment: .leading)

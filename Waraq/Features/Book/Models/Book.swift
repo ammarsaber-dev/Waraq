@@ -39,6 +39,14 @@ extension Book {
         case notStarted = "not started"
         case reading = "reading"
         case finished = "finished"
+        
+        var label: LocalizedStringKey {
+            switch self {
+            case .notStarted: "Not Started"
+            case .reading: "Reading"
+            case .finished: "Finished"
+            }
+        }
     }
     
     var status: ReadingStatus {

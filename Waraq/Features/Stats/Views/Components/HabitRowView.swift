@@ -10,8 +10,8 @@ import SwiftUI
 struct HabitRowView: View {
     let icon: String
     let iconColor: Color
-    let label: String
-    let value: String
+    let label: LocalizedStringKey
+    let value: Text
 
     var body: some View {
         HStack {
@@ -25,7 +25,7 @@ struct HabitRowView: View {
 
             Spacer()
 
-            Text(value)
+            value
                 .font(.subheadline.weight(.medium))
         }
         .padding(.horizontal)

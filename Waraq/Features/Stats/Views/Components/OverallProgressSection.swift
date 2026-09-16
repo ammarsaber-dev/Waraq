@@ -30,8 +30,8 @@ struct OverallProgressSection: View {
                 columns: [GridItem(.flexible()), GridItem(.flexible())],
                 spacing: 10
             ) {
-                MetricCardView(label: "Pages read", value: "\(totalPagesRead)")
-                MetricCardView(label: "Time reading", value: formattedTime)
+                MetricCardView(label: "Pages read", value: Text("\(totalPagesRead) page"))
+                MetricCardView(label: "Time reading", value: Text(formattedTime))
             }
 
             BooksSummaryCardView(
