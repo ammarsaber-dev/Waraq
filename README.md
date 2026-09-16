@@ -19,6 +19,8 @@ Watch a quick demo on [YouTube](#).
 - Time a reading session with a live, pause-aware timer
 - Set a daily page goal per book and track live progress toward it
 - View reading stats — streaks, average session length, most-read book
+- Daily reading reminders via local notifications
+- Full Arabic and English support, including RTL layout
 
 <br>
 
@@ -37,6 +39,7 @@ Watch a quick demo on [YouTube](#).
 - SwiftUI
 - SwiftData
 - TimelineView
+- Local Notifications
 
 <br>
 
@@ -62,13 +65,13 @@ Watch a quick demo on [YouTube](#).
 - [x] Reading session logging (start/stop timer)
 - [x] Stats dashboard
 - [x] Daily reading goals
-- [ ] Scheduled reading reminders
-- [ ] Arabic + English localization
+- [x] Scheduled reading reminders
+- [x] Arabic + English localization
 
 <br>
 
 ## 🚀 Getting Started
-Clone the repo and open `Waraq.xcodeproj` in Xcode 26+.
+Clone the repo and open `Waraq.xcodeproj` in Xcode 27+.
 ```bash
 git clone https://github.com/ammarsaber-dev/waraq.git
 ```
