@@ -21,7 +21,7 @@ struct BookHeaderView: View {
                 .font(.subheadline)
                 .foregroundStyle(.secondary)
 
-            Text(book.status.rawValue.capitalized)
+            Text(book.status.label)
                 .font(.caption.weight(.semibold))
                 .foregroundStyle(book.status.color)
                 .padding(.horizontal, 10)

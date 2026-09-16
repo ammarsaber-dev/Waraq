@@ -125,8 +125,8 @@ struct SettingsView: View {
 
     func scheduleReminder() async {
         let reminderContent = UNMutableNotificationContent()
-        reminderContent.title = "Reading Time"
-        reminderContent.body = "Pick up a book - even 10 minutes counts."
+        reminderContent.title = String(localized: "Reading Time")
+        reminderContent.body = String(localized: "Pick up a book - even 10 minutes counts.")
 
         let dateComponents = reminderDateComponents()
 

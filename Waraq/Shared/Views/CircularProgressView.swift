@@ -27,9 +27,8 @@ struct CircularProgressView: View {
         self.percentageFont = percentageFont
     }
     
-    var formattedProgress: String {
-        let progressInPercentage = progress * 100
-        return "\(Int(progressInPercentage))%"
+    var formattedProgress: Text {
+        Text(progress, format: .percent.precision(.fractionLength(0)))
     }
     
     var body: some View {
@@ -47,7 +46,7 @@ struct CircularProgressView: View {
                 .animation(.smooth.speed(0.5), value: progress)
             
             if showPercentage {
-                Text(formattedProgress)
+                formattedProgress
                     .font(percentageFont)
             }
         }
